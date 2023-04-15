@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>טקסט ביוני</title>
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.input-box {
+			height: 150px;
+			width: 800px;
+			margin: 20px;
+			padding: 10px;
+			border: 1px solid #ccc;
+			resize: vertical;
+			word-wrap: break-word;
+			text-align: right;
+		}
+		.output-box {
+			height: 450px;
+			width: 800px;
+			margin: 20px;
+			padding: 10px;
+			border: 1px solid #ccc;
+			overflow-y: auto;
+			text-align: right;
+		}
+		.button {
+			padding: 10px 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			margin: 20px;
+			font-size: 16px;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>ממיר לטקסט ביוני</h1>
+		<div id="input-container">
+			<textarea class="input-box" id="input-box"></textarea>
+			<button class="button" onclick="convert()">המר</button>
+		</div>
+		<div class="output-box" id="output-box"></div>
+		<button class="button" onclick="showInput()">ערוך מקור</button>
+	</div>
+	<script>
+		function convert() {
+			const inputBox = document.getElementById('input-box');
+			const inputContainer = document.getElementById('input-container');
+			const outputBox = document.getElementById('output-box');
+			const inputText = inputBox.value;
+			let outputText = '';
+			const lines = inputText.split('\n');
+			for (let i = 0; i < lines.length; i++) {
+				const words = lines[i].split(/\s+/);
+				for (let j = 0; j < words.length; j++) {
+					const word = words[j];
+					const len = word.length;
+					let boldLen = Math.floor(len / 2);
+					if (len % 2 !== 0) {
+						boldLen--;
+					}
+					const boldPart = '<span style="font-weight:bold;">' + word.slice(0, boldLen + 1) + '</span>';
+					const plainPart = word.slice(boldLen + 1);
+					outputText += boldPart + plainPart;
+					if (j !== words.length - 1) {
+						outputText += ' ';
+					}
+				}
+				if (i !== lines.length - 1) {
+					outputText += '<br>';
+				}
+			}
+			outputBox.innerHTML = outputText;
+			inputContainer.style.display = 'none';
+			outputBox.style.display = 'block';
+		}
+
+		function showInput() {
+			const inputContainer = document.getElementById('input-container');
+			const outputBox = document.getElementById('output-box');
+			inputContainer.style.display = 'flex';
+			outputBox.style.display = 'none';
+		}
+	</script>
+</body>
+</html>
