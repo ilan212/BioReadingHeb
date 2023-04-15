@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Half-bold Text Converter</title>
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.input-box {
+			height: 150px;
+			width: 90%;
+			margin: 20px;
+			padding: 10px;
+			border: 1px solid #ccc;
+			resize: vertical;
+			word-wrap: break-word;
+			text-align: right;
+		}
+		.output-box {
+			height: 550px;
+			width: 90%;
+			margin: 20px;
+			padding: 10px;
+			border: 1px solid #ccc;
+			overflow-y: auto;
+			white-space: pre-line;
+			text-align: right;
+		}
+		.button {
+			padding: 10px 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			margin: 20px;
+			font-size: 16px;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Half-bold Text Converter</h1>
+		<textarea class="input-box" id="input-box"></textarea>
+		<button class="button" onclick="convert()">Convert</button>
+		<div class="output-box" id="output-box"></div>
+	</div>
+	<script>
+		function convert() {
+			const inputBox = document.getElementById('input-box');
+			const outputBox = document.getElementById('output-box');
+			const inputText = inputBox.value;
+			let outputText = '';
+			const paragraphs = inputText.split('\n');
+			for (let i = 0; i < paragraphs.length; i++) {
+				const words = paragraphs[i].split(/\s+/);
+				for (let j = 0; j < words.length; j++) {
+					const word = words[j];
+					const len = word.length;
+					let boldLen = Math.floor(len / 2);
+					if (len % 2 !== 0) {
+						boldLen--;
+					}
+					const boldPart = '<span style="font-weight:bold;">' + word.slice(0, boldLen + 1) + '</span>';
+					const plainPart = word.slice(boldLen + 1);
+					outputText += boldPart + plainPart + ' ';
+				}
+				outputText += '<br>';
+			}
+			outputBox.innerHTML = outputText;
+		}
+	</script>
+</body>
+</html>
