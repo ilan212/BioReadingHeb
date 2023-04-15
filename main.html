@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Half-bold Text Converter</title>
+	<title>ממיר טקסט ביוני</title>
 	<style>
 		.container {
 			display: flex;
@@ -16,6 +16,10 @@
 			border: 1px solid #ccc;
 			resize: vertical;
 			word-wrap: break-word;
+			direction: rtl; /* align to right */
+			text-align: right;
+		}
+		.input-box::placeholder {
 			text-align: right;
 		}
 		.output-box {
@@ -25,7 +29,7 @@
 			padding: 10px;
 			border: 1px solid #ccc;
 			overflow-y: auto;
-			white-space: pre-line;
+			direction: rtl; /* align to right */
 			text-align: right;
 		}
 		.button {
@@ -44,8 +48,8 @@
 <body>
 	<div class="container">
 		<h1>Half-bold Text Converter</h1>
-		<textarea class="input-box" id="input-box"></textarea>
-		<button class="button" onclick="convert()">Convert</button>
+		<textarea class="input-box" id="input-box" placeholder="הדבק טקסט..."></textarea>
+		<button class="button" onclick="convert()">המר</button>
 		<div class="output-box" id="output-box"></div>
 	</div>
 	<script>
@@ -54,21 +58,17 @@
 			const outputBox = document.getElementById('output-box');
 			const inputText = inputBox.value;
 			let outputText = '';
-			const paragraphs = inputText.split('\n');
-			for (let i = 0; i < paragraphs.length; i++) {
-				const words = paragraphs[i].split(/\s+/);
-				for (let j = 0; j < words.length; j++) {
-					const word = words[j];
-					const len = word.length;
-					let boldLen = Math.floor(len / 2);
-					if (len % 2 !== 0) {
-						boldLen--;
-					}
-					const boldPart = '<span style="font-weight:bold;">' + word.slice(0, boldLen + 1) + '</span>';
-					const plainPart = word.slice(boldLen + 1);
-					outputText += boldPart + plainPart + ' ';
+			const words = inputText.split(/\s+/);
+			for (let i = 0; i < words.length; i++) {
+				const word = words[i];
+				const len = word.length;
+				let boldLen = Math.floor(len / 2);
+				if (len % 2 !== 0) {
+					boldLen--;
 				}
-				outputText += '<br>';
+				const boldPart = '<span style="font-weight:bold;">' + word.slice(0, boldLen + 1) + '</span>';
+				const plainPart = word.slice(boldLen + 1);
+				outputText += boldPart + plainPart + ' ';
 			}
 			outputBox.innerHTML = outputText;
 		}
